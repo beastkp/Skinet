@@ -1,0 +1,12 @@
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\bin\Debug\net8.0\Skinet.Core.deps.json
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\bin\Debug\net8.0\Skinet.Core.dll
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\bin\Debug\net8.0\Skinet.Core.pdb
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\obj\Debug\net8.0\Skinet.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\obj\Debug\net8.0\Skinet.Core.AssemblyInfoInputs.cache
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\obj\Debug\net8.0\Skinet.Core.AssemblyInfo.cs
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\obj\Debug\net8.0\Skinet.Core.csproj.CoreCompileInputs.cache
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\obj\Debug\net8.0\Skinet.Core.sourcelink.json
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\obj\Debug\net8.0\Skinet.Core.dll
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\obj\Debug\net8.0\refint\Skinet.Core.dll
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\obj\Debug\net8.0\Skinet.Core.pdb
+C:\Users\momsk\OneDrive\Desktop\Krish\Skinet Project\Skinet\Skinet.Core\obj\Debug\net8.0\ref\Skinet.Core.dll
