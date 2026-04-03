@@ -41,5 +41,37 @@ namespace Skinet.API.Controllers
 
 
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateProduct(int id, Product product)
+        {
+            if(product.Id != id || !ProductExists(id))
+            {
+                return BadRequest("Cannot update this product");
+            }
+
+            _context.Entry(product).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (product == null) return NotFound();
+
+            _context.Products.Remove(product);
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool ProductExists(int id)
+        {
+            return _context.Products.Any(x => x.Id == id);
+        }
     }
 }

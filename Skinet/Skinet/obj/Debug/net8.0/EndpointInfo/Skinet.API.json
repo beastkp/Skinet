@@ -138,7 +138,7 @@
           "description",
           "name",
           "pictureUrl",
-          "typeId"
+          "type"
         ],
         "type": "object",
         "properties": {
@@ -162,7 +162,7 @@
             "type": "number",
             "format": "double"
           },
-          "typeId": {
+          "type": {
             "type": "string",
             "nullable": true
           },

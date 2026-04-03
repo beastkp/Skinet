@@ -12,7 +12,7 @@ namespace Skinet.Core.Entities
         public required string Description { get; set; }
         public required string PictureUrl { get; set; }
         public decimal Price { get; set; }
-        public required string TypeId { get; set; }
+        public required string Type { get; set; }
         public required string Brand { get; set; }
         public int QuantityInStock { get; set; }
     }
