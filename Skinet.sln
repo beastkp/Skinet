@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36327.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skinet.API", "Skinet\Skinet.API.csproj", "{0391B2D5-81CC-4C83-8249-E3AA8822CC7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skinet.API", "Skinet.API\Skinet.API.csproj", "{0391B2D5-81CC-4C83-8249-E3AA8822CC7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skinet.Infrastructure", "Skinet.Infrastructure\Skinet.Infrastructure.csproj", "{F7AB936C-19B1-4EA0-B6A5-E471F5E3EF37}"
 EndProject
