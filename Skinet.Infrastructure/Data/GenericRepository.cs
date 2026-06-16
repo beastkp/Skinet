@@ -16,6 +16,15 @@ namespace Skinet.Infrastructure.Data
            _context.Set<T>().Add(entity);
         }
 
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            var query = _context.Set<T>().AsQueryable();
+
+            query = spec.ApplyCriteria(query);
+
+            return await query.CountAsync();
+        }
+
         public bool Exists(int id)
         {
             return _context.Set<T>().Any(x => x.Id == id); // access to properties of only Bse Entity since this is generic, dont know if the entity will have that property or not 

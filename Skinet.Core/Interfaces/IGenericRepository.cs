@@ -20,6 +20,9 @@ namespace Skinet.Core.Interfaces
         void Remove(T entity);
         Task<bool> SaveAllAsync();
         bool Exists(int id);
+        Task<int> CountAsync(ISpecification<T> spec); 
+        // when we use pagination, we make 2 requests to our database, one ot get list of products and one to get count of products
+        // this is unavoidable with this system (specification pattern)
 
     }
 }

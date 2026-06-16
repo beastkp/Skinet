@@ -32,6 +32,11 @@ namespace Skinet.Infrastructure.Data
                 query = query.Distinct();
             }
 
+            if (spec.isPagingEnabled)
+            {
+                query = query.Skip(spec.Skip).Take(spec.Take);
+            }
+
             return query;
         }
 
@@ -63,6 +68,11 @@ namespace Skinet.Infrastructure.Data
             if (spec.IsDistinct)
             {
                 SelectQuery = SelectQuery?.Distinct();
+            }
+
+            if (spec.isPagingEnabled)
+            {
+                SelectQuery = SelectQuery?.Skip(spec.Skip).Take(spec.Take);
             }
             return SelectQuery ?? query.Cast<TResult>();
         }
