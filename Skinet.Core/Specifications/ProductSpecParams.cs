@@ -41,5 +41,14 @@ namespace Skinet.Core.Specifications
         }
 
         public string? sort { get; set; }
+
+        private string? _search;
+
+        public string Search
+        {
+            get { return _search ?? ""; }
+            set { _search = value.ToLower(); }
+        }
+
     }
 }
