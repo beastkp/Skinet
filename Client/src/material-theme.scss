@@ -5,6 +5,21 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+:root {
+  @include mat.button-overrides((filled-container-shape: 8px,
+      outlined-container-shape: 8px,
+      outlined-outline-width: 1.5px,
+    ));
+
+  @include mat.badge-overrides((background-color: #e11d48, 
+    ));
+
+  // Custom design tokens for consistent spacing/shadow across components
+  --app-header-height: 72px;
+  --app-shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --app-border-subtle: rgba(0, 0, 0, 0.08);
+}
+
 html {
   height: 100%;
   @include mat.theme(

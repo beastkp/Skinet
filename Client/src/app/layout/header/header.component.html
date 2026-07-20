@@ -1,0 +1,21 @@
+<header class="app-header w-full sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-[var(--app-border-subtle)]">
+  <div class="flex items-center justify-between max-w-screen-2xl mx-auto px-4 sm:px-6 h-[var(--app-header-height)]">
+
+    <img src="/images/logo.png" alt="app logo" class="h-10 sm:h-12 w-auto">
+
+    <nav class="hidden md:flex gap-8 text-sm font-medium tracking-wide uppercase">
+      <a href="" class="app-nav-link">Home</a>
+      <a href="" class="app-nav-link">Shop</a>
+      <a href="" class="app-nav-link">Contact</a>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <a matBadge="5" matBadgeSize="medium" class="custom-badge relative inline-flex" aria-label="Cart, 5 items">
+        <mat-icon>shopping_cart</mat-icon>
+      </a>
+      <button mat-stroked-button color="primary">Login</button>
+      <button mat-flat-button color="primary" class="hidden sm:inline-flex">Sign Up</button>
+    </div>
+
+  </div>
+</header>

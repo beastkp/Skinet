@@ -1,0 +1,48 @@
+.custom-badge {
+    color: rgba(0, 0, 0, 0.7);
+    transition: color 0.15s ease;
+}
+
+.custom-badge:hover {
+    color: var(--mdc-filled-button-container-color, #1976d2);
+}
+
+.custom-badge .mat-badge-content {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 600;
+}
+
+.custom-badge .mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+}
+
+.app-nav-link {
+    position: relative;
+    color: rgba(0, 0, 0, 0.75);
+    transition: color 0.15s ease;
+}
+
+.app-nav-link:hover {
+    color: rgba(0, 0, 0, 1);
+}
+
+/* Animated underline on hover — subtle, not flashy */
+.app-nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.2s ease;
+}
+
+.app-nav-link:hover::after {
+    width: 100%;
+}
