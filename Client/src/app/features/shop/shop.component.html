@@ -4,6 +4,10 @@
       <mat-icon>filter_list</mat-icon>
       Filters
     </button>
+    <button mat-stroked-button color="primary" [matMenuTriggerFor]="sortMenu">
+      <mat-icon>swap_vert</mat-icon>
+      Sort
+    </button>
   </div>
   <!-- product-list.component.html -->
   <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
@@ -14,3 +18,12 @@
     }
   </div>
 </div>
+
+<mat-menu #sortMenu="matMenu">
+  <mat-selection-list [multiple]="false" (selectionChange)="onSortChange($event)">
+    @for (sort of sortOptions; track $index) {
+      <mat-list-option [value]="sort.value" [selected]="selectedSort === sort.value">{{sort.name}}</mat-list-option>
+    }
+  </mat-selection-list>
+
+</mat-menu>
