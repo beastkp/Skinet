@@ -1,11 +1,11 @@
 <header class="app-header w-full sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-[var(--app-border-subtle)]">
   <div class="flex items-center justify-between max-w-screen-2xl mx-auto px-4 sm:px-6 h-[var(--app-header-height)]">
 
-    <img src="/images/logo.png" alt="app logo" class="h-10 sm:h-12 w-auto">
+    <img routerLink="/" src="/images/logo.png" alt="app logo" class="h-10 sm:h-12 w-auto">
 
     <nav class="hidden md:flex gap-8 text-sm font-medium tracking-wide uppercase">
-      <a href="" class="app-nav-link">Home</a>
-      <a href="" class="app-nav-link">Shop</a>
+      <a routerLink="/" routerLinkActive="active" class="app-nav-link" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a routerLink="/shop" routerLinkActive="active" class="app-nav-link">Shop</a>
       <a href="" class="app-nav-link">Contact</a>
     </nav>
 
