@@ -1,17 +1,55 @@
 <div class="flex flex-col gap-3">
-  <div class="flex justify-end">
-    <button mat-stroked-button color="primary" (click)="openFiltersDialog()">
-      <mat-icon>filter_list</mat-icon>
-      Filters
+  <div class="flex justify-between">
+    <mat-paginator
+      (page)="handlePageEvent($event)"
+      [length]="products()?.count ?? 0"
+      [pageSize]="shopParams.pageSize"
+      [pageIndex]="shopParams.pageNumber-1"
+      [showFirstLastButtons]="true"
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      aria-label="Select page"
+    ></mat-paginator>
+
+    <form #searchForm="ngForm" (ngSubmit)="onSearchChange()" class="relative flex items-center w-full max-w-md mx-4">
+    <input
+      type="search"
+      class="search-input block w-full p-4 pr-20 text-sm text-gray-900 border border-gray-300 rounded-lg"
+      placeholder="Search"
+      name="search"
+      [(ngModel)]="shopParams.search"
+      #searchInput="ngModel"
+    />
+
+    @if (shopParams.search) {
+      <button
+        mat-icon-button
+        type="button"
+        class="absolute inset-y-0 right-10 flex! items-center"
+        (click)="shopParams.search = ''; onSearchChange()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+
+    <button mat-icon-button type="submit" class="absolute! inset-y-0 right-0 top-2 flex! items-center">
+      <mat-icon>search</mat-icon>
     </button>
-    <button mat-stroked-button color="primary" [matMenuTriggerFor]="sortMenu">
-      <mat-icon>swap_vert</mat-icon>
-      Sort
-    </button>
+  </form>
+
+    <div class="flex gap-3">
+      <button class="match-input-height" mat-stroked-button color="primary" (click)="openFiltersDialog()">
+        <mat-icon>filter_list</mat-icon>
+        Filters
+      </button>
+      <button class="match-input-height" mat-stroked-button color="primary" [matMenuTriggerFor]="sortMenu">
+        <mat-icon>swap_vert</mat-icon>
+        Sort
+      </button>
+    </div>
   </div>
   <!-- product-list.component.html -->
   <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-    @for (product of products(); track product.id) {
+    @for (product of products()?.data; track product.id) {
       <app-product-item [product]="product"></app-product-item>
     } @empty {
       <p class="col-span-full text-center text-slate-400">No products available.</p>
@@ -22,7 +60,7 @@
 <mat-menu #sortMenu="matMenu">
   <mat-selection-list [multiple]="false" (selectionChange)="onSortChange($event)">
     @for (sort of sortOptions; track $index) {
-      <mat-list-option [value]="sort.value" [selected]="selectedSort === sort.value">{{sort.name}}</mat-list-option>
+      <mat-list-option [value]="sort.value" [selected]="shopParams.sort === sort.value">{{sort.name}}</mat-list-option>
     }
   </mat-selection-list>
 

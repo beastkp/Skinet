@@ -1,0 +1,8 @@
+/* hide native browser clear button so it can't overlap your custom one */
+.search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+.search-input::-ms-clear {
+  display: none;
+}

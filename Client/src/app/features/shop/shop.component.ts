@@ -15,11 +15,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { FiltersDialogComponent } from './filters-dialog/filters-dialog.component';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
+import { ShopParams } from '../../shared/models/shopParams';
+import { Pagination } from '../../shared/models/pagination';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [ ProductItemComponent, MatButtonModule, MatIconModule, MatMenu, MatSelectionList, MatListOption, MatMenuTrigger],
+  imports: [ ProductItemComponent, MatButtonModule, MatIconModule, MatMenu, MatSelectionList, MatListOption, MatMenuTrigger, MatPaginator, FormsModule],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
@@ -35,8 +39,9 @@ export class ShopComponent implements OnInit {
     {name: 'Price: Low-High', value: 'priceAsc'},
     {name: 'Price: High-Low', value: 'priceDesc'}
   ]
+  shopParams = new ShopParams();  
   
-  products = signal<Product[]>([]);
+  products = signal<Pagination<Product> | null>(null);
   
   addToCart(product: Product): void {
     console.log('Added to cart:', product.name);
@@ -49,11 +54,11 @@ export class ShopComponent implements OnInit {
   }
 
   loadProducts() {
-    this.shopService.getProducts().subscribe({
-      next: response => this.products.set(response.data),
+    this.shopService.getProducts(this.shopParams).subscribe({
+      next: response => this.products.set(response),
       error: err => {
         console.log(err);
-        this.products.set([]);
+        this.products.set(null);
       }
     });
   }
@@ -62,31 +67,40 @@ export class ShopComponent implements OnInit {
     const dialogRef = this.dialogService.open(FiltersDialogComponent, {
       minWidth: '500px',
       data:{
-        selectedBrands: this.selectedBrands,
-        selectedTypes: this.selectedTypes
+        selectedBrands: this.shopParams.brands,
+        selectedTypes: this.shopParams.types
       }
     });
     dialogRef.afterClosed().subscribe({
       next: response => {
         if(response){
           console.log(response);
-          this.selectedBrands = response.selectedBrands;
-          this.selectedTypes = response.selectedTypes;  
-          this.shopService.getProducts(this.selectedBrands, this.selectedTypes).subscribe({
-            next: response => this.products.set(response.data),
-            error: error => console.log(error)
-          });
+          this.shopParams.brands = response.selectedBrands;
+          this.shopParams.types = response.selectedTypes;  
+          this.shopParams.pageNumber = 1;
+          this.loadProducts();
         }
       }
     })
   }
 
+  handlePageEvent(event: PageEvent){
+    this.shopParams.pageNumber = event.pageIndex + 1;
+    this.shopParams.pageSize = event.pageSize;
+    this.loadProducts();
+  }
+
   onSortChange(event: MatSelectionListChange){
     const selectedOption = event.options[0];
     if(selectedOption){
-      this.selectedSort = selectedOption.value;
-      console.log(this.selectedSort);
+      this.shopParams.sort = selectedOption.value;
+      this.shopParams.pageNumber = 1;
+      this.loadProducts();
     }
+  }
 
+  onSearchChange(){
+    this.shopParams.pageNumber = 1;
+    this.loadProducts();
   }
 }
