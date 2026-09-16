@@ -10,7 +10,7 @@
     </nav>
 
     <div class="flex items-center gap-4">
-      <a matBadge="5" matBadgeSize="medium" class="custom-badge relative inline-flex" aria-label="Cart, 5 items">
+      <a routerLink="/cart" routerLinkActive="active" matBadge="{{cartService.itemCount()}}" matBadgeSize="medium" class="custom-badge relative inline-flex" aria-label="Cart, 5 items">
         <mat-icon>shopping_cart</mat-icon>
       </a>
       <button mat-stroked-button color="primary">Login</button>

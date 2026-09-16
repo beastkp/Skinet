@@ -1,0 +1,122 @@
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Cart, CartItem } from '../../shared/models/cart';
+import { Product } from '../../shared/models/product';
+import { firstValueFrom, map, tap } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CartService {
+  baseUrl = environment.apiUrl;
+  private http = inject(HttpClient);
+
+  cart = signal<Cart | null>(null);
+  itemCount = computed(() => {
+    return this.cart()?.items.reduce((sum, item) => sum + item.quantity, 0);
+  });
+  totals = computed(() => {
+    const cart = this.cart();
+    if (!cart) return null;
+    const subtotal = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const shipping = 0;
+    const discount = 0;
+    return {
+      subtotal,
+      shipping: 0,
+      discount: 0,
+      total: subtotal + shipping - discount,
+    };
+  });
+
+  getCart(id: string) {
+    return this.http.get<Cart>(this.baseUrl + 'cart?id=' + id).pipe(
+      map((cart) => {
+        this.cart.set(cart);
+        return cart;
+      }),
+    ); //in this way you can return the observable because subscribing doesn't return an observable like how we want in the init service
+    // return this.http.get<Cart>(this.baseUrl + 'cart?id=' + id).subscribe({
+    //   next: cart => this.cart.set(cart),
+    // });
+  }
+
+  setCart(cart: Cart) {
+    return this.http.post<Cart>(this.baseUrl + 'cart', cart).pipe(
+      tap((cart) => {
+        this.cart.set(cart);
+      }),
+    );
+  }
+
+  addOrUpdateItem(items: CartItem[], item: CartItem, quantity: number): CartItem[] {
+    const index = items.findIndex((x) => x.productId === item.productId);
+    if (index === -1) {
+      item.quantity += quantity;
+      items.push(item);
+    } else {
+      items[index].quantity += quantity;
+    }
+
+    return items;
+  }
+
+  mapProductToCartItem(item: Product): CartItem {
+    return {
+      productId: item.id,
+      productName: item.name,
+      brand: item.brand,
+      type: item.type,
+      pictureUrl: item.pictureUrl,
+      quantity: 0,
+      price: item.price,
+    };
+  }
+
+  async removeItemFromCart(productId: number, quantity = 1) {
+    const cart = this.cart();
+    if (!cart) return;
+    const index = cart.items.findIndex((i) => i.productId === productId);
+    if (index !== -1) {
+      if (cart.items[index].quantity > quantity) {
+        cart.items[index].quantity -= quantity;
+      } else {
+        cart.items.splice(index, 1);
+      }
+      if (cart.items.length === 0) {
+        this.deleteCart();
+      } else {
+        await firstValueFrom(this.setCart(cart));
+      }
+    }
+  }
+
+  async addItemToCart(item: CartItem | Product, quantity = 1) {
+    const cart = this.cart() ?? this.createCart();
+    if (this.isProduct(item)) {
+      item = this.mapProductToCartItem(item);
+    }
+    cart.items = this.addOrUpdateItem(cart.items, item, quantity);
+    await firstValueFrom(this.setCart(cart));
+  }
+
+  deleteCart() {
+    this.http.delete(this.baseUrl + 'cart?id=' + this.cart()?.id).subscribe({
+      next: () => {
+        localStorage.removeItem('cart_id');
+        this.cart.set(null);
+      },
+    });
+  }
+
+  private isProduct(item: CartItem | Product): item is Product {
+    return (item as Product).id !== undefined;
+  }
+
+  private createCart(): Cart {
+    const cart = new Cart();
+    localStorage.setItem('cartId', cart.id);
+    return cart;
+  }
+}

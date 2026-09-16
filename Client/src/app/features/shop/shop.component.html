@@ -48,13 +48,14 @@
     </div>
   </div>
   <!-- product-list.component.html -->
-  <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-    @for (product of products()?.data; track product.id) {
-      <app-product-item [product]="product"></app-product-item>
-    } @empty {
-      <p class="col-span-full text-center text-slate-400">No products available.</p>
-    }
-  </div>
+   <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-6">
+     @for (product of products()?.data; track product.id) {
+       <app-product-item [product]="product"></app-product-item>
+     } @empty {
+       <p class="col-span-full text-center text-slate-400">No products available.</p>
+     }
+   </div>
+
 </div>
 
 <mat-menu #sortMenu="matMenu">
