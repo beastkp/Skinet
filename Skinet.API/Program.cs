@@ -2,6 +2,7 @@ using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Skinet.API.Middleware;
+using Skinet.Core.Entities;
 using Skinet.Core.Interfaces;
 using Skinet.Infrastructure.Data;
 using Skinet.Infrastructure.Services;
@@ -30,6 +31,8 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
     return ConnectionMultiplexer.Connect(configuration);
 });
 builder.Services.AddSingleton<ICartService, CartService>();
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<AppUser>().AddEntityFrameworkStores<StoreContext>();
 
 var app = builder.Build();
 
@@ -45,8 +48,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200", "https://localhost:4200"));
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:4200", "https://localhost:4200"));
 app.MapControllers();
+app.MapGroup("api").MapIdentityApi<AppUser>(); // will ensure api is followed after /api/...(login/register)
 
 try
 {
