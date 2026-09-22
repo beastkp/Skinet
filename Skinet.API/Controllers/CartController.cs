@@ -8,7 +8,7 @@ namespace Skinet.API.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<ShoppingCart>> GetCartById(string id)
+        public async Task<ActionResult<ShoppingCart>> GetCartById([FromQuery] string id)
         {
             var cart = await cartService.GetCartAsync(id);
             return Ok(cart ?? new ShoppingCart{ Id = id});
@@ -16,7 +16,7 @@ namespace Skinet.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ShoppingCart>> UpdateCart(ShoppingCart cart)
+        public async Task<ActionResult<ShoppingCart>> UpdateCart([FromBody] ShoppingCart cart)
         {
             var updatedCart = await cartService.SetCartAsync(cart);
 
@@ -26,7 +26,7 @@ namespace Skinet.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteCart(string id)
+        public async Task<ActionResult> DeleteCart([FromQuery] string id)
         {
             var result = await cartService.DeleteCartAsync(id);
 

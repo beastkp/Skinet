@@ -1,0 +1,16 @@
+@keyframes fadeMsg {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    10%,
+    90% {
+        opacity: 1;
+    }
+}
+
+span {
+    animation: fadeMsg 1.8s ease-in-out infinite;
+}
