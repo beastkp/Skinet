@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Skinet.Core.Entities;
 using Skinet.Core.Interfaces;
 
@@ -36,6 +37,12 @@ namespace Skinet.Infrastructure.Data
             {
                 query = query.Skip(spec.Skip).Take(spec.Take);
             }
+
+            query = spec.Includes.Aggregate(query, (current, include) =>
+            current.Include(include));
+
+            query = spec.IncludeStrings.Aggregate(query, (current, include) =>
+                current.Include(include));
 
             return query;
         }

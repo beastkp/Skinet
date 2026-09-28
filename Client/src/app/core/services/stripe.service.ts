@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CartService } from './cart.service';
 import { Cart } from '../../shared/models/cart';
-import { firstValueFrom, map } from 'rxjs';
+import { firstValueFrom, map, switchMap } from 'rxjs';
 import { AccountService } from './account.service';
 
 @Injectable({
@@ -128,12 +128,10 @@ export class StripeService {
     if (!cart) throw new Error('Problem with cart');
 
     return this.http.post<Cart>(this.baseUrl + 'payments/' + cart.id, {}).pipe(
-      map((cart) => {
-        this.cartService.setCart(cart);
-        return cart;
-      })
+      switchMap(cart => this.cartService.setCart(cart))
     );
   }
+
 
   disposeElements(){
     this.elements=undefined;

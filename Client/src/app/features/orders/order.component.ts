@@ -1,0 +1,22 @@
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { OrderService } from '../../core/services/order.service';
+import { Order } from '../../shared/models/order';
+
+@Component({
+  selector: 'app-order',
+  imports: [RouterLink, CurrencyPipe, DatePipe],
+  templateUrl: './order.component.html',
+  styleUrl: './order.component.css',
+})
+export class OrderComponent implements OnInit {
+private orderService = inject(OrderService);
+  orders = signal<Order[]>([]);
+
+  ngOnInit(): void {
+    this.orderService.getOrdersForUser().subscribe({
+      next: (orders) => this.orders.set(orders),
+    });
+  }
+}

@@ -32,12 +32,17 @@ export class CheckoutDeliveryComponent implements OnInit {
   }
 
   updateDeliveryMethod(method: DeliveryMethod){
+    this.deliveryComplete.emit(false);
     this.cartService.selectedDelivery.set(method);
     const cart = this.cartService.cart();
     if(cart){
-      cart.deliveryMethodId = method.id;
-      this.cartService.setCart(cart);
-      this.deliveryComplete.emit(true);
+      const updatedCart = { ...cart, deliveryMethodId: method.id };
+      this.cartService.setCart(updatedCart).subscribe({
+        next: () => this.deliveryComplete.emit(true),
+        error: (err) => {
+          console.error('Failed to update cart delivery method', err);
+        }
+      });
     }
   }
 }

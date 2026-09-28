@@ -18,7 +18,6 @@ namespace Skinet.Core.Interfaces
         void Add(T entity);
         void Update(T entity);
         void Remove(T entity);
-        Task<bool> SaveAllAsync();
         bool Exists(int id);
         Task<int> CountAsync(ISpecification<T> spec); 
         // when we use pagination, we make 2 requests to our database, one ot get list of products and one to get count of products
