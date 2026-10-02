@@ -159,6 +159,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         if (result.paymentIntent?.status === 'succeeded') {
           if (orderResult) {
             this.cartService.deleteCart();
+            this.orderService.orderComplete = true;
             this.cartService.selectedDelivery.set(null);
             this.router.navigateByUrl('/checkout/success');
           } else {

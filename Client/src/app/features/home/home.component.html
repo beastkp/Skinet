@@ -1,1 +1,145 @@
-<p>home works!</p>
+<!-- HERO -->
+<section class="relative isolate overflow-hidden"
+    (mouseenter)="pause()" (mouseleave)="play()">
+    @for (img of heroImages; track img; let i = $index) {
+        <img [src]="img" alt="Skiers on a snowy mountain"
+            class="absolute inset-0 -z-20 h-full w-full object-cover transition-opacity duration-1000 motion-reduce:transition-none"
+            [class.opacity-100]="i === current()"
+            [class.opacity-0]="i !== current()"
+            [attr.aria-hidden]="i !== current()">
+    }
+    <div class="absolute inset-0 -z-10 bg-linear-to-r from-slate-950/85 via-slate-950/50 to-slate-950/10"></div>
+
+    <div class="max-w-screen-2xl mx-auto px-6 sm:px-10 min-h-[75vh] flex flex-col justify-center py-24">
+        <h1 class="max-w-3xl text-white font-extrabold tracking-tight leading-[1.05]
+                   text-5xl sm:text-6xl lg:text-7xl">
+            Gear for every run,<br class="hidden sm:block"> from first chair to last.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-slate-200 leading-relaxed">
+            Skis, snowboards, boots, gloves and the layers that keep you out
+            on the mountain longer.
+        </p>
+
+        <div class="mt-10 flex flex-wrap gap-4">
+            <a routerLink="/shop"
+                class="rounded-full bg-orange-500 px-8 py-4 text-lg font-semibold text-white
+                       shadow-lg shadow-orange-900/30 transition hover:bg-orange-400
+                       focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                Shop all gear
+            </a>
+            <a href="#categories"
+                class="rounded-full border-2 border-white/70 px-8 py-4 text-lg font-semibold text-white
+                       transition hover:bg-white/10
+                       focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                Browse categories
+            </a>
+        </div>
+    </div>
+
+    <!-- Carousel controls -->
+    <div class="absolute bottom-6 left-6 sm:left-10 flex items-center gap-4">
+        <button type="button" (click)="prev()" aria-label="Previous image"
+            class="flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white
+                   backdrop-blur transition hover:bg-white/30
+                   focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 6l-6 6 6 6" />
+            </svg>
+        </button>
+
+        <div class="flex items-center gap-2">
+            @for (img of heroImages; track img; let i = $index) {
+                <button type="button" (click)="goTo(i)" [attr.aria-label]="'Show image ' + (i + 1)"
+                    [attr.aria-current]="i === current()"
+                    class="h-2.5 rounded-full transition-all duration-300
+                           focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                    [class]="i === current() ? 'w-8 bg-orange-500' : 'w-2.5 bg-white/60 hover:bg-white'">
+                </button>
+            }
+        </div>
+
+        <button type="button" (click)="next()" aria-label="Next image"
+            class="flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white
+                   backdrop-blur transition hover:bg-white/30
+                   focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 6l6 6-6 6" />
+            </svg>
+        </button>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<section id="categories" class="max-w-screen-2xl mx-auto px-6 sm:px-10 py-20 scroll-mt-4">
+    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+        Shop by category
+    </h2>
+    <p class="mt-3 max-w-xl text-slate-600">
+        Start with what you need for the next trip.
+    </p>
+
+    <div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-4 md:auto-rows-55">
+        @for (c of categories; track c.name) {
+            <a [routerLink]="'/shop'" [queryParams]="{ type: c.name }"
+                class="group relative flex flex-col justify-end overflow-hidden rounded-3xl p-7
+                       min-h-50 transition-transform duration-300 hover:-translate-y-1
+                       bg-slate-900 text-white
+                       focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-500
+                       {{ c.span }}">
+                <img [src]="c.image" [alt]="c.name"
+                    class="absolute inset-0 h-full w-full object-cover transition-transform
+                           duration-500 group-hover:scale-105">
+                <div class="absolute inset-0 bg-linear-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+
+                <div class="relative z-10 max-w-xs">
+                    <h3 class="text-2xl font-bold leading-tight">{{ c.name }}</h3>
+                    <p class="mt-1 text-sm text-slate-200">{{ c.description }}</p>
+                </div>
+
+                <span class="absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-full
+                             bg-white/90 text-slate-900 transition group-hover:bg-orange-500 group-hover:text-white"
+                    aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                </span>
+            </a>
+        }
+    </div>
+</section>
+
+<!-- SERVICE STRIP -->
+<section class="bg-slate-900 text-white">
+    <div class="max-w-screen-2xl mx-auto px-6 sm:px-10 py-14 grid gap-10 md:grid-cols-3">
+        @for (item of promises; track item.title) {
+            <div>
+                <h3 class="text-xl font-semibold">{{ item.title }}</h3>
+                <p class="mt-2 text-slate-300 leading-relaxed">{{ item.text }}</p>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section class="max-w-screen-2xl mx-auto px-6 sm:px-10 py-20">
+    <div class="rounded-3xl bg-sky-100 px-8 py-14 sm:px-14 flex flex-col gap-6 sm:flex-row
+                sm:items-center sm:justify-between">
+        <div>
+            <h2 class="text-3xl font-bold text-slate-900 tracking-tight">
+                Not sure what fits?
+            </h2>
+            <p class="mt-2 max-w-lg text-slate-700">
+                Filter the shop by brand, type and price to find the right gear for your level.
+            </p>
+        </div>
+        <a routerLink="/shop"
+            class="shrink-0 rounded-full bg-slate-900 px-8 py-4 text-lg font-semibold text-white
+                   transition hover:bg-slate-700
+                   focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900">
+            Go to shop
+        </a>
+    </div>
+</section>
