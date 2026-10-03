@@ -12,7 +12,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-
+Skinet.API/wwwroot
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

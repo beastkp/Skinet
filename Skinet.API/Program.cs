@@ -59,12 +59,17 @@ app.UseCors(x => x
 
 app.UseMiddleware<ExceptionMiddleware>();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<AppUser>(); // will ensure api is followed after /api/...(login/register)
 app.MapHub<NotificationHub>("/hub/notifications");
+app.MapFallbackToController("Index", "Fallback");  
 
 try
 {
