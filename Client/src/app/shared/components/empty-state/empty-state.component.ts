@@ -6,7 +6,7 @@ import { BusyService } from '../../../core/services/busy.service';
 
 @Component({
   selector: 'app-empty-state',
-  imports: [MatIcon, MatButton, RouterLink],
+  imports: [MatIcon, MatButton],
   templateUrl: './empty-state.component.html',
   styleUrl: './empty-state.component.css',
 })

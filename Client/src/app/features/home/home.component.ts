@@ -34,7 +34,7 @@ export class HomeComponent {
     // this.pause();
     // Skip autoplay for people who prefer reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    this.timer = setInterval(() => this.next(), 5000);
+    this.timer = setInterval(() => this.next(), 2000);
   }
 
   pause() {

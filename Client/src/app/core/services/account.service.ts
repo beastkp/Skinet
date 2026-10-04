@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Address, User } from '../../shared/models/user';
 import { map, tap } from 'rxjs';
 import { SignalrService } from './signalr.service';
@@ -18,23 +18,21 @@ export class AccountService {
   login(values: any) {
     let params = new HttpParams();
     params = params.append('useCookies', true);
-    return this.http.post<User>(this.baseUrl + 'login', values, { params }).pipe(
-      tap(() => this.signalrService.createHubConnection())
-    );
+    return this.http.post<User>(this.baseUrl + 'login', values, { params });
   }
 
   register(values: any) {
-    return this.http.post(this.baseUrl + 'account/register', values).pipe(
-      tap(() => this.signalrService.createHubConnection())
-    );
+    return this.http.post(this.baseUrl + 'account/register', values);
   }
 
   getUserInfo() {
-    return this.http.get<User>(this.baseUrl + 'account/user-info').pipe(
-      map((user) => {
-        this.currentUser.set(user);
-        return user;
-      }),
+    return this.http.get<User>(this.baseUrl + 'account/user-info', {observe: 'response'}).pipe(
+      map((response: HttpResponse<User>) => {
+        if (response.status === 200 && response.body) {
+          this.currentUser.set(response.body);
+        }
+        return response; 
+      })
     );
   }
 

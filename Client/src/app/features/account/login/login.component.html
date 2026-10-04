@@ -1,4 +1,4 @@
-<mat-card class="max-w-lg mx-auto mt-32 p-8 bg-white">
+<mat-card class="max-w-lg mx-auto mt-5 p-8 bg-white">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="text-center mb-6">
       <h1 class="text-3xl font-semibold text-primary">Login</h1>
@@ -8,9 +8,31 @@
       <input matInput formControlName="email" type="email" placeholder="name@example.com" />
     </mat-form-field>
     <mat-form-field appearance="outline" class="w-full mb-6">
-      <mat-label>Password</mat-label>
-      <input matInput formControlName="password" type="password" placeholder="Password" />
-    </mat-form-field>
+    <mat-label>Password</mat-label>
+    <input 
+      matInput 
+      #passwordInput
+      formControlName="password" 
+      [type]="hidePassword ? 'password' : 'text'" 
+      placeholder="Password" />
+
+    <button 
+      mat-icon-button 
+      matSuffix 
+      type="button"
+      (click)="hidePassword = !hidePassword" 
+      [attr.aria-label]="'Hide password'" 
+      [attr.aria-pressed]="hidePassword">
+      <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+  </mat-form-field>
+
     <button mat-flat-button type="submit" color="primary" class="w-full py-2">Sign in</button>
+    <div class="text-center mt-4 text-gray-600 text-sm">
+            Don't have an account? 
+            <a routerLink="/account/register" class="text-primary font-semibold hover:underline cursor-pointer">
+                Register here
+            </a>
+        </div>
   </form>
 </mat-card>

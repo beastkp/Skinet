@@ -12,6 +12,7 @@ export class SignalrService {
   orderSignal = signal<Order | null>(null);
 
   createHubConnection() {
+    if (this.hubConnection) return; 
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.hubUrl, {
         withCredentials: true,

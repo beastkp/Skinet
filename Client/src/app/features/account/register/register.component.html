@@ -1,4 +1,4 @@
-<mat-card class="max-w-lg mx-auto mt-32 p-8 bg-white">
+<mat-card class="max-w-lg mx-auto mt-5 p-8 bg-white">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="text-center mb-6">
             <h1 class="text-3xl font-semibold text-primary">Register</h1>
@@ -22,5 +22,12 @@
             mat-flat-button 
             type="submit" 
             class="w-full py-2">Register</button>
+
+        <div class="text-center mt-4 text-gray-600 text-sm">
+            Already have an account? 
+            <a routerLink="/account/login" class="text-primary font-semibold hover:underline cursor-pointer">
+                Log in here
+            </a>
+        </div>
     </form>
 </mat-card> 
