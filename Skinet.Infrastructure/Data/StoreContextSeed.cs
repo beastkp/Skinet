@@ -5,14 +5,28 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Skinet.Core.Entities;
 
 namespace Skinet.Infrastructure.Data
 {
     public class StoreContextSeed
     {
-        public static async Task SeedAsync(StoreContext context)
+        public static async Task SeedAsync(StoreContext context, UserManager<AppUser> userManager)
         {
+            if (!userManager.Users.Any(x => x.UserName == "REMOVED"))
+            {
+                var user = new AppUser
+                {
+                    UserName = "REMOVED",
+                    Email = "REMOVED",
+                };
+
+                await userManager.CreateAsync(user, "REMOVED");
+                await userManager.AddToRoleAsync(user, "Admin");
+
+            }
+
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             if (!context.Products.Any())

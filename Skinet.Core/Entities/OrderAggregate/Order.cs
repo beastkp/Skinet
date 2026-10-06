@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Skinet.Core.Interfaces;
 
 namespace Skinet.Core.Entities.OrderAggregate
 {
-    public class Order : BaseEntity
+    public class Order : BaseEntity, IDtoConvertible
     {
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public required string BuyerEmail { get; set; }

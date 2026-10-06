@@ -14,6 +14,10 @@ export class AccountService {
   private signalrService = inject(SignalrService);
 
   currentUser = signal<User | null>(null);
+  isAdmin = computed(() => {
+    const roles = this.currentUser()?.roles;
+    return Array.isArray(roles)? roles.includes('Admin') : roles === 'Admin';
+  })
 
   login(values: any) {
     let params = new HttpParams();
