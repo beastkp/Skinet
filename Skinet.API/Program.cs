@@ -85,8 +85,9 @@ for( var attempt = 1; attempt <=5;attempt ++)
         var services = scope.ServiceProvider;
         var context = services.GetRequiredService<StoreContext>();
         var userManager = services.GetRequiredService<UserManager<AppUser>>();
+        var config = services.GetRequiredService<IConfiguration>();
         await context.Database.MigrateAsync();
-        await StoreContextSeed.SeedAsync(context, userManager);
+        await StoreContextSeed.SeedAsync(context, userManager, config);
     }
     catch (Exception ex) when (attempt < 5)
     {
