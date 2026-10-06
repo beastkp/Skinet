@@ -14,7 +14,7 @@ namespace Skinet.Infrastructure.Migrations
         {
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "N   ame", "NormalizedName" },
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
                     { "admin-Id", "admin", "Admin", "ADMIN" },
