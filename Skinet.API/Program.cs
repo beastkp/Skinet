@@ -20,7 +20,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StoreContext>(opt =>
 {
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    opt.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sql => sql.EnableRetryOnFailure(
+            maxRetryCount: 10,
+            maxRetryDelay: TimeSpan.FromSeconds(15),
+            errorNumbersToAdd: null));
 });
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -72,19 +77,23 @@ app.MapGroup("api").MapIdentityApi<AppUser>(); // will ensure api is followed af
 app.MapHub<NotificationHub>("/hub/notifications");
 app.MapFallbackToController("Index", "Fallback");  
 
-try
+for( var attempt = 1; attempt <=5;attempt ++)
 {
-    using var scope = app.Services.CreateScope();
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<StoreContext>();
-    var userManager = services.GetRequiredService<UserManager<AppUser>>();
-    await context.Database.MigrateAsync();
-    await StoreContextSeed.SeedAsync(context, userManager);
-}
-catch (Exception e)
-{
-    Console.WriteLine(e);
-    throw;
+    try
+    {
+        using var scope = app.Services.CreateScope();
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<StoreContext>();
+        var userManager = services.GetRequiredService<UserManager<AppUser>>();
+        await context.Database.MigrateAsync();
+        await StoreContextSeed.SeedAsync(context, userManager);
+    }
+    catch (Exception ex) when (attempt < 5)
+    {
+        Console.WriteLine(ex);
+        await Task.Delay(TimeSpan.FromSeconds(15));
+    }
+
 }
 
 app.Run();
