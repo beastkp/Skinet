@@ -6,23 +6,29 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Skinet.Core.Entities;
 
 namespace Skinet.Infrastructure.Data
 {
-    public class StoreContextSeed
+    public class StoreContextSeed()
     {
-        public static async Task SeedAsync(StoreContext context, UserManager<AppUser> userManager)
+
+        public static async Task SeedAsync(StoreContext context, UserManager<AppUser> userManager, IConfiguration config)
         {
-            if (!userManager.Users.Any(x => x.UserName == "REMOVED"))
+            var email = config["AdminCredentials:Email"]!;
+            var password = config["AdminCredentials:Password"]!;
+
+            if (!userManager.Users.Any(x => x.UserName == email))
             {
                 var user = new AppUser
                 {
-                    UserName = "REMOVED",
-                    Email = "REMOVED",
+                    UserName = email,
+                    Email = email,
                 };
 
-                await userManager.CreateAsync(user, "REMOVED");
+                await userManager.CreateAsync(user, password);
                 await userManager.AddToRoleAsync(user, "Admin");
 
             }
